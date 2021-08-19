@@ -1,0 +1,32 @@
+name: 'Setup Kscript'
+author: 'Sergii Fesenko'
+description: 'Setup kotlin & kscript'
+inputs:
+  kscript:
+    required: false
+    default: ''
+    description: Kscript version
+  kotlin:
+    required: false
+    default: ''
+    description: Kotlin version
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v2
+      with:
+        path: ~/.sdkman/
+        key: sdkman-${{ github.action }}-${{ inputs.kscript }}-${{ inputs.kotlin }}-1
+    - run: |
+        if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
+          curl -s "https://get.sdkman.io" | bash
+          . ~/.sdkman/bin/sdkman-init.sh
+          sdk install kotlin ${{ inputs.kotlin }}
+          sdk install kscript ${{ inputs.kscript }}
+          sdk flush
+        else
+          . ~/.sdkman/bin/sdkman-init.sh
+        fi
+        dirname $(which kotlin) >> $GITHUB_PATH
+        dirname $(which kscript) >> $GITHUB_PATH
+      shell: bash
