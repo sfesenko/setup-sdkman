@@ -1,32 +1,33 @@
-name: 'Setup Kscript'
+name: 'Setup '
 author: 'Sergii Fesenko'
-description: 'Setup kotlin & kscript'
+description: 'Manage dependencies with sdkman'
 inputs:
-  kscript:
-    required: false
+  deps:
+    required: true
     default: ''
-    description: Kscript version
-  kotlin:
-    required: false
-    default: ''
-    description: Kotlin version
+    description: dependencies
 runs:
   using: "composite"
   steps:
+    - run: |
+        hash=`echo "${{ inputs.deps }}" | tr [:blank:] \\n | sort | xargs | md5sum | cut -f1 -d' '`
+        echo hash=$hash >> $GITHUB_ENV
+      shell: bash
     - uses: actions/cache@v2
       with:
         path: ~/.sdkman/
-        key: sdkman-${{ github.action }}-${{ inputs.kscript }}-${{ inputs.kotlin }}-1
+        key: ${{ runner.os }}-${{ github.action }}-${{ env.hash }}
     - run: |
         if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
           curl -s "https://get.sdkman.io" | bash
           . ~/.sdkman/bin/sdkman-init.sh
-          sdk install kotlin ${{ inputs.kotlin }}
-          sdk install kscript ${{ inputs.kscript }}
+          for p in "${{ inputs.deps }}"; do
+            pkg=(`echo $p | tr : ' '`)
+            sdk install ${pkg[0]} ${pkg[1]}
+          done
           sdk flush
         else
           . ~/.sdkman/bin/sdkman-init.sh
         fi
-        dirname $(which kotlin) >> $GITHUB_PATH
-        dirname $(which kscript) >> $GITHUB_PATH
+        echo $PATH | tr : \\n | grep .sdkman >> $GITHUB_PATH
       shell: bash

@@ -1,5 +1,5 @@
 # Setup kscript Action
-A simple Github action that makes kscript (and kotlin) available for your GitHub actions workflow.
+A simple Github action that makes [kscript](https://github.com/holgerbrandl/kscript) (and kotlin) available for your GitHub actions workflow.
 It uses [sdkman](https://sdkman.io) and doesn't touch the installed JREs.
 
 # Usage

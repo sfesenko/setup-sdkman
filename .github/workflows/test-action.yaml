@@ -1,4 +1,4 @@
-name: Run Script
+name: Test
 
 on:
   push:
@@ -18,8 +18,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      - uses: sfesenko/setup-kscript@v0.0.0
+      - uses: sfesenko/setup-sdkman@v0
         with:
-          kotlin: 1.4.31
-      - run: kscript 'println("Hello, world 🌍!")'
+          deps: kscript
+      - run: kscript 'println("Kscript works via sdkman")'
       - run: kscript -v
