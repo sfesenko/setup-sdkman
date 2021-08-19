@@ -1,0 +1,51 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'main'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  test-single:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - uses: sfesenko/setup-sdkman@master
+        with:
+          deps: kscript
+      - run: kscript 'println("Kscript works via sdkman")'
+      - run: kscript -v
+      - run: |
+          tr ':' \\n <<< "$PATH"
+          which java
+          java -version
+          which kotlinc
+          kotlinc -version
+  test-multiple:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - uses: sfesenko/setup-sdkman@master
+        with:
+          deps: kscript
+      - run: kscript -v
+      - uses: sfesenko/setup-sdkman@master
+        with:
+          deps: |
+            java kscript
+            kscript 
+            kscript java 
+      - run: kscript -v
+      - run: kscript 'println("Kscript works via sdkman")'
+      - run: |
+          tr ':' \\n <<< "$PATH"
+          which java
+          java -version
+          which kotlinc
+          kotlinc -version

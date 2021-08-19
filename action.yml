@@ -1,0 +1,51 @@
+name: 'Setup Sdkman'
+author: 'Sergii Fesenko'
+description: 'Manage dependencies with sdkman'
+inputs:
+  deps:
+    required: true
+    default: ''
+    description: |
+      space separated list of dependencies with optional version:
+       dependency1[:version1] dependency2[:version2] ...
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare configuration
+      id: prepare
+      shell: bash
+      run: |
+        DEPS=$(tr -s [:blank:] \\n <<< "${{ inputs.deps }}" | sort | uniq | xargs)
+        DEPS_HASH=$(md5sum <<< $DEPS | cut -f1 -d' ')
+        if [ "${{ startsWith (runner.name, 'GitHub') }}" ]; then
+          CACHE_PATH=~/.sdkman/
+        else
+          CACHE_PATH=~/nothing
+        fi
+        echo "::set-output name=deps::${DEPS}"
+        echo "::set-output name=hash::${DEPS_HASH}"
+        echo "::set-output name=path::$CACHE_PATH"
+
+    - name: Restore cached sdkman
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.prepare.outputs.path }}
+        key: ${{ runner.os }}-${{ github.action }}-${{ steps.prepare.outputs.hash }}
+
+    - name: Setup sdkman
+      shell: bash
+      run: |
+        if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
+          curl -s "https://get.sdkman.io" | bash
+          . ~/.sdkman/bin/sdkman-init.sh
+          sed '/sdkman_auto_answer=/ s/=.*/=true/' -i ~/.sdkman/etc/config
+        else
+          . ~/.sdkman/bin/sdkman-init.sh
+        fi
+
+        for p in ${{ steps.prepare.outputs.deps }}; do
+          pkg=(`tr : ' ' <<< $p`)
+          sdk install ${pkg[0]} ${pkg[1]}
+        done
+        sdk flush
+        tr : \\n <<< "$PATH" | grep .sdkman >> $GITHUB_PATH
