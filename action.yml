@@ -11,9 +11,14 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - id: normalize
+      run: |
+        DEPS=`echo "${{ inputs.deps }}" | tr [:blank:] '\n' | sort | uniq | xargs`
+        echo "::set-output name=deps::${DEPS}"
+      shell: bash
     - id: hash
       run: |
-        DEPS_HASH=`echo "${{ inputs.deps }}" | tr [:blank:] '\n' | sort | xargs | md5sum | cut -f1 -d' '`
+        DEPS_HASH=`echo "${{ steps.normalize.output.deps }}" | md5sum | cut -f1 -d' '`
         echo "::set-output name=hash::${DEPS_HASH}"
       shell: bash
     - uses: actions/cache@v2
@@ -24,8 +29,7 @@ runs:
         if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
           curl -s "https://get.sdkman.io" | bash
           . ~/.sdkman/bin/sdkman-init.sh
-          DEPS=`echo "${{ inputs.deps }}" | tr [:blank:] '\n' | xargs`
-          for p in $DEPS; do
+          for p in ${{ steps.normalize.output.deps }}; do
             pkg=(`echo $p | tr : ' '`)
             sdk install ${pkg[0]} ${pkg[1]}
           done

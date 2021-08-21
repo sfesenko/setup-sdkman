@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@v2
       - uses: sfesenko/setup-sdkman@v0
         with:
-          deps: java kscript
+          deps: kscript java kscript
       - run: kscript 'println("Kscript works via sdkman")'
       - run: kscript -v
