@@ -13,12 +13,14 @@ runs:
   steps:
     - id: normalize
       run: |
+        echo NORM: "${{ inputs.deps }}"
         DEPS=`echo "${{ inputs.deps }}" | tr [:blank:] '\n' | sort | uniq | xargs`
         echo "::set-output name=deps::${DEPS}"
       shell: bash
     - id: hash
       run: |
-        DEPS_HASH=`echo "${{ steps.normalize.output.deps }}" | md5sum | cut -f1 -d' '`
+        echo HASH: ${{ steps.normalize.output.deps }}
+        DEPS_HASH=`echo ${{ steps.normalize.output.deps }} | md5sum | cut -f1 -d' '`
         echo "::set-output name=hash::${DEPS_HASH}"
       shell: bash
     - uses: actions/cache@v2
