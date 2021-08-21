@@ -23,8 +23,6 @@ runs:
         path: ~/.sdkman/
         key: ${{ runner.os }}-${{ github.action }}-${{ steps.hash.outputs.hash }}
     - run: |
-        echo HASH: "${{ steps.hash.outputs.deps }}"
-        echo HASH: "${{ steps.hash.outputs.hash }}"
         if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
           curl -s "https://get.sdkman.io" | bash
           . ~/.sdkman/bin/sdkman-init.sh
