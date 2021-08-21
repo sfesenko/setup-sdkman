@@ -1,4 +1,4 @@
-name: 'Setup '
+name: 'Setup Sdkman'
 author: 'Sergii Fesenko'
 description: 'Manage dependencies with sdkman'
 inputs:
@@ -9,14 +9,15 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: |
-        hash=`echo "${{ inputs.deps }}" | tr [:blank:] \\n | sort | xargs | md5sum | cut -f1 -d' '`
-        echo hash=$hash >> $GITHUB_ENV
+    - id: calc_hash
+      run: |
+        DEPS_HASH=`echo "${{ inputs.deps }}" | tr [:blank:] \\n | sort | xargs | md5sum | cut -f1 -d' '`
+        echo "::set-output name=hash::${DEPS_HASH}"
       shell: bash
     - uses: actions/cache@v2
       with:
         path: ~/.sdkman/
-        key: ${{ runner.os }}-${{ github.action }}-${{ env.hash }}
+        key: ${{ runner.os }}-${{ github.action }}-${{ steps.calc_hash.outputs.hash }}
     - run: |
         if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
           curl -s "https://get.sdkman.io" | bash
