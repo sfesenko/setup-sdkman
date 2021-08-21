@@ -24,7 +24,8 @@ runs:
         if [ ! -s ~/.sdkman/bin/sdkman-init.sh ]; then
           curl -s "https://get.sdkman.io" | bash
           . ~/.sdkman/bin/sdkman-init.sh
-          for p in "${{ inputs.deps }}"; do
+          DEPS=``echo "${{ inputs.deps }}" | tr [:blank:] \\n | sort | xargs`
+          for p in $DEPS; do
             pkg=(`echo $p | tr : ' '`)
             sdk install ${pkg[0]} ${pkg[1]}
           done
