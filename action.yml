@@ -19,7 +19,7 @@ runs:
       shell: bash
     - id: hash
       run: |
-        echo HASH: ${{ steps.normalize.output.deps }}
+        echo HASH: "${{ steps.normalize.output.deps }}"
         DEPS_HASH=`echo ${{ steps.normalize.output.deps }} | md5sum | cut -f1 -d' '`
         echo "::set-output name=hash::${DEPS_HASH}"
       shell: bash
