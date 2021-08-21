@@ -15,11 +15,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 11
       - uses: sfesenko/setup-sdkman@v0
         with:
-          deps: kscript
+          deps: java kscript
       - run: kscript 'println("Kscript works via sdkman")'
       - run: kscript -v

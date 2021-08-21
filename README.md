@@ -1,7 +1,5 @@
-# Setup kscript Action
-A simple Github action that makes [kscript](https://github.com/holgerbrandl/kscript) (and kotlin) available for your GitHub actions workflow.
-It uses [sdkman](https://sdkman.io) and doesn't touch the installed JREs.
-
+# Setup Sdkman Action
+A simple Github action, that makes [Sdkman](https://sdkman.io)'s managed SDKs available for your GitHub actions workflow.
 # Usage
 
 ```yml
@@ -13,12 +11,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-      - name: set up java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
       - name: setup kscript
-        uses: sfesenko/setup-kscript@v0.0.0
+        uses: sfesenko/setup-sdkman@v0
+          deps: java kscript
       - name: run kscript
         run: kscript 'println("Hello, world!")'
 ```
