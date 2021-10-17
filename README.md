@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: setup kscript
         uses: sfesenko/setup-sdkman@v0
-          deps: java kscript
+          deps: kscript
       - name: run kscript
         run: kscript 'println("Hello, world!")'
 ```
