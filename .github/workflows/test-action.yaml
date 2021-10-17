@@ -17,8 +17,9 @@ jobs:
         uses: actions/checkout@v2
       - uses: sfesenko/setup-sdkman@master
       - run: |
+          # . ~/.bashrc
+          source ~/.sdkman/bin/sdkman-init.sh
           sdk version
-          cat ~/.sdkman/etc/config
 
   test-single:
     runs-on: ubuntu-latest
@@ -28,6 +29,12 @@ jobs:
       - uses: sfesenko/setup-sdkman@master
         with:
           deps: kscript
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.kscript
+          key: ${{ runner.os }}-${{ github.action }}-kscript
+
       - run: kscript 'println("Kscript works via sdkman")'
       - run: kscript -v
       - run: |
@@ -44,6 +51,11 @@ jobs:
       - uses: sfesenko/setup-sdkman@master
         with:
           deps: kscript
+      - uses: actions/cache@v2
+        with:
+          path: ~/.kscript
+          key: ${{ runner.os }}-${{ github.action }}-kscript
+
       - run: kscript -v
       - uses: sfesenko/setup-sdkman@master
         with:

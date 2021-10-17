@@ -44,10 +44,9 @@ runs:
         else
           . ~/.sdkman/bin/sdkman-init.sh
         fi
-
         for p in ${{ steps.prepare.outputs.deps }}; do
           pkg=(`tr : ' ' <<< $p`)
           sdk install ${pkg[0]} ${pkg[1]}
         done
         sdk flush || true
-        tr : \\n <<< "$PATH" | grep .sdkman >> $GITHUB_PATH
+        tr ':' \\n <<< "$PATH" | grep /.sdkman/ >> $GITHUB_PATH || true
