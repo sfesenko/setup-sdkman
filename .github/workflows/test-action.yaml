@@ -1,6 +1,7 @@
 name: Test
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'master'
@@ -18,7 +19,7 @@ jobs:
       - uses: sfesenko/setup-sdkman@master
       - run: |
           # . ~/.bashrc
-          source ~/.sdkman/bin/sdkman-init.sh
+          . ~/.sdkman/bin/sdkman-init.sh
           sdk version
 
   test-single:

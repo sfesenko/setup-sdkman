@@ -17,12 +17,11 @@ runs:
       run: |
         DEPS=$(tr -s [:blank:] \\n <<< "${{ inputs.deps }}" | sort | uniq | xargs)
         DEPS_HASH=$(md5sum <<< $DEPS | cut -f1 -d' ')
-
         # don't cache /.sdkman/ for self-hosted runners
-        if [ "${{ startsWith (runner.name, 'GitHub') }}" ]; then
+        if [ "${{ startsWith (runner.name, 'GitHub Actions') }}" == "true" ]; then
           CACHE_PATH=~/.sdkman/
         else
-          CACHE_PATH=~/nothing
+          CACHE_PATH=/dev/null
         fi
         echo "::set-output name=deps::$DEPS"
         echo "::set-output name=hash::$DEPS_HASH"
