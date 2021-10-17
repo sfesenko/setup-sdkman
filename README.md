@@ -20,4 +20,14 @@ jobs:
         run: kscript 'println("Hello, world!")'
 ```
 
-# Notes
+All installed sdks will be added to `$PATH` automatically, but in order to make `sdk` command available, sdkman's init script must be referenced explicitly:
+```yml
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: sfesenko/setup-sdkman@v0
+      - run: |
+          source ~/.sdkman/bin/sdkman-init.sh
+          sdk version
+```
