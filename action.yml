@@ -17,16 +17,18 @@ runs:
       run: |
         DEPS=$(tr -s [:blank:] \\n <<< "${{ inputs.deps }}" | sort | uniq | xargs)
         DEPS_HASH=$(md5sum <<< $DEPS | cut -f1 -d' ')
+
+        # don't cache /.sdkman/ for self-hosted runners
         if [ "${{ startsWith (runner.name, 'GitHub') }}" ]; then
           CACHE_PATH=~/.sdkman/
         else
           CACHE_PATH=~/nothing
         fi
-        echo "::set-output name=deps::${DEPS}"
-        echo "::set-output name=hash::${DEPS_HASH}"
+        echo "::set-output name=deps::$DEPS"
+        echo "::set-output name=hash::$DEPS_HASH"
         echo "::set-output name=path::$CACHE_PATH"
 
-    - name: Restore cached sdkman
+    - name: Restore sdkman cache
       uses: actions/cache@v2
       with:
         path: ${{ steps.prepare.outputs.path }}

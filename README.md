@@ -19,5 +19,3 @@ jobs:
 ```
 
 # Notes
-
-- Action must be used only once per workflow
