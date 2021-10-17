@@ -49,5 +49,5 @@ runs:
           pkg=(`tr : ' ' <<< $p`)
           sdk install ${pkg[0]} ${pkg[1]}
         done
-        sdk flush
+        sdk flush || true
         tr : \\n <<< "$PATH" | grep .sdkman >> $GITHUB_PATH

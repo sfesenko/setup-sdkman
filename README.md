@@ -1,3 +1,4 @@
+[![Test](https://github.com/sfesenko/setup-sdkman/actions/workflows/test-action.yaml/badge.svg)](https://github.com/sfesenko/setup-sdkman/actions/workflows/test-action.yaml)
 # Setup Sdkman Action
 A simple Github action, that makes [Sdkman](https://sdkman.io)'s managed SDKs available for your GitHub actions workflow.
 # Usage
