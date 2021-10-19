@@ -8,6 +8,9 @@ inputs:
     description: |
       space separated list of dependencies with optional version:
        dependency1[:version1] dependency2[:version2] ...
+branding:
+  icon: 'download'
+  color: 'blue'
 runs:
   using: "composite"
   steps:
