@@ -2,7 +2,8 @@
 [![Test-self-hosted](https://github.com/sfesenko/setup-sdkman/actions/workflows/test-action-selfhosted.yaml/badge.svg)](https://github.com/sfesenko/setup-sdkman/actions/workflows/test-action-selfhosted.yaml)
 # Setup Sdkman Action
 A simple Github action, that makes [Sdkman](https://sdkman.io)'s managed SDKs available for your GitHub actions workflow.
-For self-hosted runner `actions/cache` is pretty slow, so caching is used for gihub-hosted runner only.
+
+Installed dependencies are cached via `actions/cache`, however, it is used for gihub-hosted runner only, because for a self-hosted runner it works pretty slow.
 
 # Usage
 
