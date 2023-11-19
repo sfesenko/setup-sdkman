@@ -17,10 +17,17 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
       - name: setup kscript
-        uses: sfesenko/setup-sdkman@v0
+        uses: sfesenko/setup-sdkman@v1
           deps: kscript
       - name: run kscript
         run: kscript 'println("Hello, world!")'
+```
+
+Dependeny version also may be specified:
+```yml
+      - name: Install GrallVM
+        uses: sfesenko/setup-sdkman@v1
+          deps: java:21.3.0.r17-grl
 ```
 
 All installed sdks will be added to `$PATH` automatically, but in order to make `sdk` command available, sdkman's init script must be referenced explicitly:
@@ -29,7 +36,7 @@ jobs:
   my-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: sfesenko/setup-sdkman@v0
+      - uses: sfesenko/setup-sdkman@v1
       - run: |
           source ~/.sdkman/bin/sdkman-init.sh
           sdk version
