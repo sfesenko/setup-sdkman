@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
-      - uses: sfesenko/setup-sdkman@master
+        uses: actions/checkout@v4
+      - uses: ./
       - run: |
           # . ~/.bashrc
           . ~/.sdkman/bin/sdkman-init.sh
@@ -26,12 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
-      - uses: sfesenko/setup-sdkman@master
+        uses: actions/checkout@v4
+      - uses: ./
         with:
           deps: kscript
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.kscript
           key: ${{ runner.os }}-${{ github.action }}-kscript
@@ -48,22 +48,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
-      - uses: sfesenko/setup-sdkman@master
+        uses: actions/checkout@v4
+      - uses: ./
         with:
           deps: kscript
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.kscript
           key: ${{ runner.os }}-${{ github.action }}-kscript
 
       - run: kscript -v
-      - uses: sfesenko/setup-sdkman@master
+      - uses: ./
         with:
           deps: |
             java kscript
-            kscript 
-            kscript java 
+            kscript
+            kscript java
       - run: kscript -v
       - run: kscript 'println("Kscript works via sdkman")'
       - run: |

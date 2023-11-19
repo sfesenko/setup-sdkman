@@ -26,12 +26,12 @@ runs:
         else
           CACHE_PATH=/dev/null
         fi
-        echo "::set-output name=deps::$DEPS"
-        echo "::set-output name=hash::$DEPS_HASH"
-        echo "::set-output name=path::$CACHE_PATH"
+        echo "deps=$DEPS" >> $GITHUB_OUTPUT
+        echo "hash=$DEPS_HASH" >> $GITHUB_OUTPUT
+        echo "path=$CACHE_PATH" >> $GITHUB_OUTPUT
 
     - name: Restore sdkman cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.prepare.outputs.path }}
         key: ${{ runner.os }}-${{ github.action }}-${{ steps.prepare.outputs.hash }}
