@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v2
       - name: setup kscript
         uses: sfesenko/setup-sdkman@v1
+        with:
           deps: kscript
       - name: run kscript
         run: kscript 'println("Hello, world!")'
@@ -27,6 +28,7 @@ Dependeny version also may be specified:
 ```yml
       - name: Install GrallVM
         uses: sfesenko/setup-sdkman@v1
+        with:
           deps: java:21.3.0.r17-grl
 ```
 
