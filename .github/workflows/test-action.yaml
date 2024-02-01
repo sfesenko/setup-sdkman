@@ -31,7 +31,7 @@ jobs:
         with:
           deps: kscript
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.kscript
           key: ${{ runner.os }}-${{ github.action }}-kscript
@@ -52,7 +52,7 @@ jobs:
       - uses: ./
         with:
           deps: kscript
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.kscript
           key: ${{ runner.os }}-${{ github.action }}-kscript
