@@ -15,7 +15,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: ./
       - run: |
           # . ~/.bashrc
@@ -26,7 +26,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: ./
         with:
           deps: kscript
@@ -49,7 +49,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: ./
         with:
           deps: kscript
